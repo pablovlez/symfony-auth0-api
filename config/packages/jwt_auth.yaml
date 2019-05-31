@@ -1,0 +1,4 @@
+jwt_auth:
+  domain: dev-kalibur.auth0.com
+  authorized_issuer: https://dev-kalibur.auth0.com/api/v2/
+  api_identifier: http://localhost:8000/api
