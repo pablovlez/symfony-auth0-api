@@ -4,13 +4,14 @@ class Auth {
     constructor(){
         this.auth0 = new auth0.WebAuth({
             domain: 'dev-kalibur.auth0.com',
-            audience: 'https://localhost:8000/api',
+            audience: '/api',
             clientID: 'uG6k1rfDjTpLwAsOcl00ZlFlFKzN0U2n',
-            redirectUri: 'https://localhost:8000/callback',
+            redirectUri: '/callback',
             responseType: 'token id_token',
             scope: 'openid profile'
         });
 
+        
         this.getProfile = this.getProfile.bind(this);
         this.handleAuthentication = this.handleAuthentication.bind(this);
         this.isAuthenticated = this.isAuthenticated.bind(this);
@@ -18,56 +19,57 @@ class Auth {
         this.logOut = this.logOut.bind(this);
     }
 
-    getProfile(){
+    getProfile() {
         return this.profile;
     }
 
-    getAccessToken(){
+    getAccessToken() {
         return this.accessToken;
     }
 
-    handleAuthentication(){
+    handleAuthentication() {
         return new Promise((resolve, reject) => {
             this.auth0.parseHash((err, authResult) => {
                 if (err) return reject(err);
-                if (!authResult || !authResult.idToken){
+                if (!authResult || !authResult.idToken) {
                     return reject(err);
                 }
                 this.setSession(authResult);
                 resolve();
-            })
-        });
+            });
+        })
     }
 
-    setSession(authResult, step){
+    setSession(authResult, step) {
         this.profile = authResult.idTokenPayload;
         this.accessToken = authResult.accessToken;
         this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
     }
 
-    isAuthenticated(){
+    isAuthenticated() {
         return new Date().getTime() < this.expiresAt;
     }
 
-    logIn(){
+    logIn() {
         this.auth0.authorize();
     }
 
-    logOut(){
+    logOut() {
+
         this.auth0.logout({
-            returnTo: 'http://localhost:8000/logout',
-            clientID: 'uG6k1rfDjTpLwAsOcl00ZlFlFKzN0U2n'
+            returnTo: '/logout',
+            clientID: 'uG6k1rfDjTpLwAsOcl00ZlFlFKzN0U2n',
         });
     }
 
-    silentAuth(){
+    silentAuth() {
         return new Promise((resolve, reject) => {
-            this.auth0.checkSession({},(err, authResult) => {
+            this.auth0.checkSession({}, (err, authResult) => {
                 if (err) return reject(err);
                 this.setSession(authResult);
                 resolve();
-            })
-        })
+            });
+        });
     }
 }
 
