@@ -20,9 +20,9 @@ function NavBar(props){
 
                             }
                             {
-                                auth0Client.isAuthenticated && 
+                                auth0Client.isAuthenticated() && 
                                 <div>
-                                    <label className="mr-2 text-white">{auth0Client.getProfile().name}</label>
+                                    <label className="mr-2 text-white">{auth0Client.getProfile()}</label>
                                     <button className="btn btn-dark" onClick={()=>{logOut()}}>Sing Out</button>
                                 </div>
 

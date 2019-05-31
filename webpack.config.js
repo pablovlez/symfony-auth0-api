@@ -44,7 +44,7 @@ Encore
     // enables @babel/preset-env polyfills
     .configureBabel((babelConfig) => {
         babelConfig.plugins = [
-            "@babel/plugins-proposal-object-rest-spread", "@babel/plugin-proposal-class-properties", "@babel/plugin-transform-runtime"
+            "@babel/plugin-proposal-object-rest-spread", "@babel/plugin-proposal-class-properties", "@babel/plugin-transform-runtime"
         ]
     })
 
